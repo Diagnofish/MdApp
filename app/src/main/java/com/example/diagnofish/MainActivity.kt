@@ -38,6 +38,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.diagnofish.screens.RegisterScreen
 import com.example.diagnofish.ui.navigation.NavigationItem
+import com.example.diagnofish.ui.navigation.Navigator
 import com.example.diagnofish.ui.navigation.Screen
 import com.example.diagnofish.ui.theme.Primary
 import com.example.diagnofish.ui.theme.TextDark
@@ -45,8 +46,9 @@ import com.example.diagnofish.ui.theme.TextDark
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         setContent {
-            RegisterScreen()
+            Navigator()
         }
     }
 }

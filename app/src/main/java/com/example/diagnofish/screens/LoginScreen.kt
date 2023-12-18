@@ -32,7 +32,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.diagnofish.R
+import com.example.diagnofish.ui.navigation.Screen
 import com.example.diagnofish.ui.theme.InterFontFamily
 import com.example.diagnofish.ui.theme.Primary
 import com.example.diagnofish.ui.theme.TextDanger
@@ -40,7 +42,7 @@ import com.example.diagnofish.ui.theme.TextDark
 
 @Preview
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavHostController) {
     Surface(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
@@ -73,7 +75,9 @@ fun LoginScreen() {
 
             TextButton(modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 16.dp), text = stringResource(id = R.string.login))
+                .padding(top = 16.dp, bottom = 16.dp), text = stringResource(id = R.string.login), onClick = {
+                    navController.navigate(Screen.Main.route)
+            })
             Box(modifier = Modifier.fillMaxWidth()) {
                 TextAndLink(text = stringResource(id = R.string.no_account1), linkText = stringResource(id = R.string.no_account2), modifier = Modifier.align(Alignment.Center))
             }

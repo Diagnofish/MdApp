@@ -1,9 +1,11 @@
 package com.example.diagnofish.screens
 
+import BasicText
 import ButtonWithIcon
 import LinkText
 import ScreenTitle
 import SectionTitle
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -48,11 +50,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import com.example.diagnofish.R
 import com.example.diagnofish.model.dummyArticleItems
 import com.example.diagnofish.model.dummyHistoryItems
 import com.example.diagnofish.ui.components.BottomBar
 import com.example.diagnofish.ui.components.CardArticle
+import com.example.diagnofish.ui.components.CardHistory
 import com.example.diagnofish.ui.components.CardHistorySmall
 import com.example.diagnofish.ui.components.Header
 import com.example.diagnofish.ui.navigation.Screen
@@ -62,12 +66,14 @@ import com.example.diagnofish.ui.theme.Primary
 import com.example.diagnofish.ui.theme.Secondary
 import com.example.diagnofish.ui.theme.TextDark
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    route: String = Screen.Main.Home.route
 ) {
     var title by remember { mutableStateOf("") }
     Scaffold(
@@ -92,55 +98,81 @@ fun MainScreen(
             BottomBar(navController)
         },
         modifier = modifier
-    ) { innerPadding ->
-        NavHost(navController = navController, startDestination = Screen.Scan.route, modifier = Modifier.padding(innerPadding)) {
-            composable(Screen.Home.route) {
+    ) {innerPadding ->
+        when (route) {
+            Screen.Main.Home.route -> {
                 title = stringResource(id = R.string.greeting)
-                HomeScreen()
+                HomeScreen(modifier = Modifier.padding(innerPadding), navController = navController)
             }
-            composable(Screen.Store.route) {
+            Screen.Main.Store.route -> {
                 title = stringResource(id = R.string.nav_store)
-                StoreScreen()
+                StoreScreen(modifier = Modifier.padding(innerPadding))
             }
-            composable(Screen.Scan.route) {
+            Screen.Main.Scan.route -> {
                 title = stringResource(id = R.string.fish_detection)
-                ScanScreen()
+                ScanScreen(modifier = Modifier.padding(innerPadding))
             }
-            composable(Screen.Article.route) {
+            Screen.Main.Article.route -> {
                 title = stringResource(id = R.string.nav_articles)
-                ArticleScreen()
+                ArticleScreen(modifier = Modifier.padding(innerPadding), navController = navController)
             }
-            composable(Screen.History.route) {
+            Screen.Main.History.route -> {
                 title = stringResource(id = R.string.detection_history)
-                HistoryScreen()
+                HistoryScreen(modifier = Modifier.padding(innerPadding), navController = navController)
             }
         }
+//        NavHost(navController = navController, startDestination = Screen.Home.route, modifier = Modifier.padding(innerPadding)) {
+//            composable(Screen.Home.route) {
+//                title = stringResource(id = R.string.greeting)
+//                HomeScreen()
+//            }
+//            composable(Screen.Store.route) {
+//                title = stringResource(id = R.string.nav_store)
+//                StoreScreen()
+//            }
+//            composable(Screen.Scan.route) {
+//                title = stringResource(id = R.string.fish_detection)
+//                ScanScreen()
+//            }
+//            composable(Screen.Article.route) {
+//                title = stringResource(id = R.string.nav_articles)
+//                ArticleScreen()
+//            }
+//            composable(Screen.History.route) {
+//                title = stringResource(id = R.string.detection_history)
+//                HistoryScreen()
+//            }
+//        }
     }
 }
 
 @Composable
-fun HomeScreen() {
-    Column(modifier = Modifier
+fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+    Column(modifier = modifier
         .fillMaxSize()
         .background(Secondary)
     ) {
-        Header(modifier = Modifier.padding(16.dp))
+        Header(modifier = Modifier.padding(16.dp), action = {
+            navController.navigate(Screen.Main.Scan.route)
+        })
         Column(modifier = Modifier
             .fillMaxSize()
             .clip(RoundedCornerShape(topStartPercent = 10, topEndPercent = 10))
             .background(Lighter)
-            .padding(16.dp)) {
+            .padding(horizontal = 16.dp)) {
             Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp)) {
                 SectionTitle(text = stringResource(id = R.string.detection_history), fontSize = 18.sp)
-                LinkText(text = stringResource(id = R.string.see_more), color = Primary, onClick = {})
+                LinkText(text = stringResource(id = R.string.see_more), color = Primary, onClick = {
+                    navController.navigate(Screen.Main.History.route)
+                })
             }
             LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier
                 .padding(4.dp)
                 .fillMaxWidth()
                 ) {
-                items(dummyHistoryItems.size) {
+                items(dummyHistoryItems.take(4).size) {
                     CardHistorySmall(historyItem = dummyHistoryItems[it])
                 }
             }
@@ -148,7 +180,9 @@ fun HomeScreen() {
                 .fillMaxWidth()
                 .padding(top = 12.dp)) {
                 SectionTitle(text = stringResource(id = R.string.articles), fontSize = 18.sp)
-                LinkText(text = stringResource(id = R.string.see_more), color = Primary, onClick = {})
+                LinkText(text = stringResource(id = R.string.see_more), color = Primary, onClick = {
+                    navController.navigate(Screen.Main.Article.route)
+                })
             }
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(dummyArticleItems.size) {
@@ -162,16 +196,16 @@ fun HomeScreen() {
 }
 
 @Composable
-fun StoreScreen() {
-    Column {
-        Text(text = stringResource(id = R.string.nav_store))
+fun StoreScreen(modifier: Modifier = Modifier) {
+    Column(modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+        BasicText(text = "Fitur ini akan segera tersedia", fontSize = 24.sp, fontWeight = FontWeight.Bold)
     }
 }
 
 @Composable
-fun ScanScreen() {
+fun ScanScreen(modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.Center,
@@ -199,15 +233,29 @@ fun ScanScreen() {
 }
 
 @Composable
-fun ArticleScreen() {
-    Column {
-        Text(text = stringResource(id = R.string.nav_articles))
+fun ArticleScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+    Column(modifier = modifier.padding(horizontal = 16.dp)) {
+        LazyColumn() {
+            items(dummyHistoryItems.size) {
+                Spacer(modifier = Modifier.padding(top = 8.dp))
+                CardArticle(articleItem = dummyArticleItems[it], onClick = {
+                    navController.navigate(Screen.ArticleDetail.route + "?id=${it}")
+                })
+            }
+        }
     }
 }
 
 @Composable
-fun HistoryScreen() {
-    Column {
-        Text(text = stringResource(id = R.string.nav_history))
+fun HistoryScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+    Column(modifier = modifier.padding(horizontal = 16.dp)) {
+        LazyColumn() {
+            items(dummyHistoryItems.size) {
+                Spacer(modifier = Modifier.padding(top = 8.dp))
+                CardHistory(historyItem = dummyHistoryItems[it], onClick = {
+                    navController.navigate(Screen.ScanDetail.route + "?id=${it}")
+                })
+            }
+        }
     }
 }

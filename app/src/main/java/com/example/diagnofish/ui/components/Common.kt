@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -48,6 +50,7 @@ import com.example.diagnofish.ui.theme.Primary
 import com.example.diagnofish.ui.theme.Lighter
 import com.example.diagnofish.ui.theme.StatusDanger
 import com.example.diagnofish.ui.theme.StatusSuccess
+import com.example.diagnofish.ui.theme.StatusWarning
 import com.example.diagnofish.ui.theme.TextDark
 
 @Preview
@@ -126,8 +129,8 @@ fun ScreenTitle(text: String = "Title") {
 }
 
 @Composable
-fun BasicText(modifier: Modifier = Modifier, text: String = "Text", fontSize: TextUnit = 16.sp, color: Color = TextDark, fontWeight: FontWeight = FontWeight.Medium, lineHeight: TextUnit? = null) {
-    Text(text = text, style = TextStyle(lineHeight = lineHeight ?: fontSize), fontFamily = InterFontFamily, fontWeight = fontWeight, fontSize = fontSize, color = color, modifier = modifier)
+fun BasicText(modifier: Modifier = Modifier, text: String = "Text", fontSize: TextUnit = 16.sp, color: Color = TextDark, fontWeight: FontWeight = FontWeight.Medium, lineHeight: TextUnit? = null, textAlign: TextAlign? = null) {
+    Text(text = text, style = TextStyle(lineHeight = lineHeight ?: fontSize), fontFamily = InterFontFamily, fontWeight = fontWeight, fontSize = fontSize, color = color, modifier = modifier, textAlign = textAlign ?: TextAlign.Start)
 }
 
 @Preview
@@ -143,6 +146,24 @@ fun StatusBadge(status: String = "Sehat") {
         )
         .padding(2.dp), text = status
     )
+}
+
+@Preview
+@Composable
+fun StatusResult(status: String = "Tidak Terdeteksi") {
+    Text(modifier = Modifier
+        .fillMaxWidth()
+        .clip(RoundedCornerShape(20))
+        .background(
+            if (status.equals(stringResource(id = R.string.status_healthy)))
+                StatusSuccess
+            else if (status.equals(stringResource(id = R.string.status_undetected)))
+                StatusWarning
+            else
+                StatusDanger
+        )
+        .padding(8.dp), text = status, fontFamily = InterFontFamily, fontWeight = FontWeight.Medium, fontSize = 14.sp, textAlign = TextAlign.Center)
+
 }
 
 @Preview
