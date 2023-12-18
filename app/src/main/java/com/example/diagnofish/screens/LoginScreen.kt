@@ -17,9 +17,12 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -33,16 +36,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.diagnofish.R
+import com.example.diagnofish.repository.UserPreferencesRepository
+import com.example.diagnofish.repository.userPreferencesRepository
 import com.example.diagnofish.ui.navigation.Screen
 import com.example.diagnofish.ui.theme.InterFontFamily
 import com.example.diagnofish.ui.theme.Primary
 import com.example.diagnofish.ui.theme.TextDanger
 import com.example.diagnofish.ui.theme.TextDark
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Preview
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(navController: NavHostController = rememberNavController()) {
+    val context = LocalContext.current
+    val userPreferencesRepository = UserPreferencesRepository(context)
+    var passVal = remember { mutableStateOf("") }
+    var passMsg = remember { mutableStateOf("") }
     Surface(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
@@ -66,7 +79,7 @@ fun LoginScreen(navController: NavHostController) {
                 .padding(top = 16.dp, bottom = 16.dp), textAlign = TextAlign.Center, fontSize = 20.sp, fontFamily = InterFontFamily, fontWeight = FontWeight.Medium)
             SectionTitle(text = stringResource(id = R.string.login), modifier = Modifier.padding(bottom = 8.dp))
             TextFieldWithLabel(Modifier.fillMaxWidth().padding(bottom = 8.dp), label = "Email", placeholder = "Email", keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Email))
-            TextFieldWithLabel(Modifier.fillMaxWidth(), label = "Kata Sandi", placeholder = "Kata Sandi", keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password))
+            TextFieldWithLabel(Modifier.fillMaxWidth(), label = "Kata Sandi", placeholder = "Kata Sandi", keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password), value = passVal, message = passMsg)
             Box(modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 8.dp), contentAlignment = Alignment.CenterEnd) {
@@ -76,6 +89,9 @@ fun LoginScreen(navController: NavHostController) {
             TextButton(modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, bottom = 16.dp), text = stringResource(id = R.string.login), onClick = {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        userPreferencesRepository.updateIsLoggedIn(true)
+                    }
                     navController.navigate(Screen.Main.route)
             })
             Box(modifier = Modifier.fillMaxWidth()) {

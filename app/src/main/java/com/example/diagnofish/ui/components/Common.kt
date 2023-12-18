@@ -17,6 +17,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,6 +52,7 @@ import com.example.diagnofish.ui.theme.Lighter
 import com.example.diagnofish.ui.theme.StatusDanger
 import com.example.diagnofish.ui.theme.StatusSuccess
 import com.example.diagnofish.ui.theme.StatusWarning
+import com.example.diagnofish.ui.theme.TextDanger
 import com.example.diagnofish.ui.theme.TextDark
 
 @Preview
@@ -64,13 +66,12 @@ fun TextButton(modifier: Modifier = Modifier, text: String = "Button", shape: Sh
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
-fun TextFieldWithLabel(modifier: Modifier = Modifier, label: String = "Label", placeholder: String = "Placeholder", keyboardOptions: KeyboardOptions = KeyboardOptions.Default) {
-    var value by remember { mutableStateOf("") }
+fun TextFieldWithLabel(modifier: Modifier = Modifier, value: MutableState<String> = remember { mutableStateOf("") }, message: MutableState<String> = remember{ mutableStateOf("")}, label: String = "Label", placeholder: String = "Placeholder", keyboardOptions: KeyboardOptions = KeyboardOptions.Default) {
     Column {
         Text(text = label, fontFamily = InterFontFamily, fontWeight = FontWeight.Medium, fontSize = 20.sp)
         OutlinedTextField(
-            value = value,
-            onValueChange = { value = it },
+            value = value.value,
+            onValueChange = { value.value = it },
             modifier = modifier
                 .clip(RoundedCornerShape(20))
                 .border(BorderStroke(1.dp, Grey), RoundedCornerShape(20)),
@@ -88,6 +89,8 @@ fun TextFieldWithLabel(modifier: Modifier = Modifier, label: String = "Label", p
                 VisualTransformation.None
             }
         )
+        if (!message.value.equals(""))
+            BasicText(text = message.value, fontSize = 12.sp, color = TextDanger, modifier = Modifier.padding(top = 4.dp))
     }
 }
 
