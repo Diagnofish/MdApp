@@ -12,7 +12,7 @@ interface ApiService {
     @POST("user/login")
     suspend fun login(
         @Body requestBody: RequestBody
-    ): HashMap<String, String>
+    ): Map<String, String>
 
     companion object {
         private var retrofitService: ApiService? = null
@@ -23,7 +23,7 @@ interface ApiService {
                     .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .build()
                 val retrofit = Retrofit.Builder()
-                    .baseUrl("http://192.168.43.12:8080/")
+                    .baseUrl("https://diagnofish-api-hnobhrzdiq-et.a.run.app/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build()

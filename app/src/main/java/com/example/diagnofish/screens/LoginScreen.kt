@@ -60,8 +60,6 @@ fun LoginScreen(navController: NavHostController = rememberNavController(), logi
     var emailMsg = remember { mutableStateOf("") }
     var passVal = remember { mutableStateOf("") }
     var passMsg = remember { mutableStateOf("") }
-    var success = remember { mutableStateOf(false) }
-    var result = remember { mutableStateOf("") }
     Surface(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
@@ -95,7 +93,7 @@ fun LoginScreen(navController: NavHostController = rememberNavController(), logi
             TextButton(modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, bottom = 16.dp), text = stringResource(id = R.string.login), onClick = {
-                    loginViewModel.login(emailVal.value, passVal.value, success, result)
+                    loginViewModel.login(emailVal.value, passVal.value)
 //                    navController.navigate(Screen.Main.route)
             })
             Box(modifier = Modifier.fillMaxWidth()) {

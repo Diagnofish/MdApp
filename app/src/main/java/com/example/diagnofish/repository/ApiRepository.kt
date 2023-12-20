@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 import okhttp3.RequestBody
 
 interface ApiRepository {
-    fun login(requestBody: RequestBody): Flow<Response<HashMap<String, String>>>
+    fun login(requestBody: RequestBody): Flow<Response<Map<String, String>>>
 }
