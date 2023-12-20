@@ -5,6 +5,7 @@ import TextButton
 import TextFieldWithLabel
 import LinkText
 import TextAndLink
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -32,7 +34,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.diagnofish.R
+import com.example.diagnofish.ui.navigation.Screen
 import com.example.diagnofish.ui.theme.InterFontFamily
 import com.example.diagnofish.ui.theme.Primary
 import com.example.diagnofish.ui.theme.TextDanger
@@ -40,7 +45,7 @@ import com.example.diagnofish.ui.theme.TextDark
 
 @Preview
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(navController: NavHostController = rememberNavController()) {
     Surface(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
@@ -63,12 +68,20 @@ fun RegisterScreen() {
                 .fillMaxWidth()
                 .padding(top = 16.dp, bottom = 16.dp), textAlign = TextAlign.Center, fontSize = 20.sp, fontFamily = InterFontFamily, fontWeight = FontWeight.Medium)
             SectionTitle(text = stringResource(id = R.string.register), modifier = Modifier.padding(bottom = 8.dp))
-            TextFieldWithLabel(Modifier.fillMaxWidth().padding(bottom = 8.dp), label = "Email", placeholder = "Email", keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Email))
-            TextFieldWithLabel(Modifier.fillMaxWidth().padding(bottom = 8.dp), label = "Kata Sandi", placeholder = "Kata Sandi", keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Password))
+            TextFieldWithLabel(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp), label = "Email", placeholder = "Email", keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Email))
+            TextFieldWithLabel(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp), label = "Kata Sandi", placeholder = "Kata Sandi", keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Password))
             TextFieldWithLabel(Modifier.fillMaxWidth(), label = "Ulangi Kata Sandi", placeholder = "Ulangi Kata Sandi", keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password))
             TextButton(modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 16.dp), text = stringResource(id = R.string.register))
+                .padding(top = 16.dp, bottom = 16.dp), text = stringResource(id = R.string.register), onClick = {
+                    navController.navigate(Screen.Auth.Login.route)
+            })
             Box(modifier = Modifier.fillMaxWidth()) {
                 TextAndLink(text = stringResource(id = R.string.has_account1), linkText = stringResource(id = R.string.has_account2), modifier = Modifier.align(Alignment.Center))
             }

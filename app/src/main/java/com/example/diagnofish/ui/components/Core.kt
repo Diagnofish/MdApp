@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -58,27 +59,27 @@ fun BottomBar(
             NavigationItem(
                 title = stringResource(id = R.string.nav_home),
                 icon = ImageVector.vectorResource(id = R.drawable.icon_home),
-                screen = Screen.Home
+                screen = Screen.Main.Home
             ),
             NavigationItem(
                 title = stringResource(id = R.string.nav_store),
                 icon = ImageVector.vectorResource(id = R.drawable.icon_store),
-                screen = Screen.Store
+                screen = Screen.Main.Store
             ),
             NavigationItem(
                 title = stringResource(id = R.string.nav_scan),
                 icon = ImageVector.vectorResource(id = R.drawable.icon_scan),
-                screen = Screen.Scan
+                screen = Screen.Main.Scan
             ),
             NavigationItem(
                 title = stringResource(id = R.string.nav_articles),
                 icon = ImageVector.vectorResource(id = R.drawable.icon_article),
-                screen = Screen.Article
+                screen = Screen.Main.Article
             ),
             NavigationItem(
                 title = stringResource(id = R.string.nav_history),
                 icon = ImageVector.vectorResource(id = R.drawable.icon_history),
-                screen = Screen.History
+                screen = Screen.Main.History
             )
         )
         navigationItems.map { item ->
@@ -94,7 +95,7 @@ fun BottomBar(
                 selected = currentRoute == item.screen.route,
                 onClick = {
                     navController.navigate(item.screen.route) {
-                        popUpTo(navController.graph.findStartDestination().id) {
+                        popUpTo(Screen.Main.Home.route) {
                             saveState = true
                         }
                         restoreState = true
@@ -108,7 +109,7 @@ fun BottomBar(
 
 @Preview
 @Composable
-fun Header(modifier: Modifier = Modifier) {
+fun Header(modifier: Modifier = Modifier, action: () -> Unit = {}) {
     Column(
         modifier
             .fillMaxWidth()) {
@@ -124,7 +125,7 @@ fun Header(modifier: Modifier = Modifier) {
             .padding(16.dp)
         ) {
             BasicText(text = stringResource(id = R.string.detection_text), modifier = Modifier.weight(1f), fontSize = 14.sp, lineHeight = 24.sp)
-            TextButton(shadowElevation = 0.dp, shape = RoundedCornerShape(50), text = stringResource(id = R.string.scan), onClick = {})
+            TextButton(shadowElevation = 0.dp, shape = RoundedCornerShape(50), text = stringResource(id = R.string.scan), onClick = action)
         }
     }
 }
@@ -149,10 +150,11 @@ fun CardHistorySmall(historyItem: HistoryItem = dummyHistoryItems[0]) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun CardArticle(articleItem: ArticleItem = dummyArticleItems[0]) {
-    ElevatedCard(modifier = Modifier.fillMaxWidth()) {
+fun CardArticle(articleItem: ArticleItem = dummyArticleItems[0], onClick: () -> Unit = {}) {
+    ElevatedCard(modifier = Modifier.fillMaxWidth(), onClick = onClick) {
         Row(modifier = Modifier
             .background(Light)
             .padding(8.dp)) {
@@ -163,10 +165,11 @@ fun CardArticle(articleItem: ArticleItem = dummyArticleItems[0]) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun CardHistory(historyItem: HistoryItem = dummyHistoryItems[0]) {
-    ElevatedCard(modifier = Modifier.fillMaxWidth()) {
+fun CardHistory(historyItem: HistoryItem = dummyHistoryItems[0], onClick: () -> Unit = {}) {
+    ElevatedCard(modifier = Modifier.fillMaxWidth(), onClick = onClick) {
         Row(modifier = Modifier
             .background(Light)
             .padding(8.dp)) {

@@ -4,99 +4,17 @@
     <shared>
       <config />
     </shared>
-    <layouts>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/font/inter.xml">
-        <config>
-          <theme>@style/Theme.Diagnofish</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/font/inter_bold.xml">
-        <config>
-          <theme>@style/Theme.Diagnofish</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/font/inter_semibold.xml">
-        <config>
-          <theme>@style/Theme.Diagnofish</theme>
-        </config>
-      </layout>
-    </layouts>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d4a551b4-d0ff-4d68-80f8-a7a407ec412c" name="Changes" comment="Layout">
+    <list default="true" id="d4a551b4-d0ff-4d68-80f8-a7a407ec412c" name="Changes" comment="WIP authentication">
+      <change beforePath="$PROJECT_DIR$/.gradle/8.2/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.2/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.2/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.2/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.2/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.2/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/.idea/deploymentTargetDropDown.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/.idea/kotlinc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/.idea/migrations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/build.gradle.kts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/proguard-rules.pro" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/androidTest/java/com/example/diagnofish/ExampleInstrumentedTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/AndroidManifest.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/java/com/example/diagnofish/MainActivity.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/java/com/example/diagnofish/model/ArticleItem.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/java/com/example/diagnofish/model/HistoryItem.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/java/com/example/diagnofish/screens/LoginScreen.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/java/com/example/diagnofish/screens/MainScreen.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/java/com/example/diagnofish/screens/RegisterScreen.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/java/com/example/diagnofish/ui/components/Components.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/java/com/example/diagnofish/ui/navigation/NavigationItem.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/java/com/example/diagnofish/ui/navigation/Screen.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/java/com/example/diagnofish/ui/theme/Color.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/java/com/example/diagnofish/ui/theme/Theme.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/java/com/example/diagnofish/ui/theme/Type.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/drawable/blank_image.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/drawable/blank_image2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/drawable/fish.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/drawable/ic_launcher_foreground.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/drawable/icon_article.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/drawable/icon_history.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/drawable/icon_home.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/drawable/icon_scan.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/drawable/icon_store.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/drawable/icon_user.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/font/inter.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/font/inter_bold.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/font/inter_medium.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/font/inter_semibold.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/mipmap-hdpi/ic_launcher.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/mipmap-mdpi/ic_launcher.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/mipmap-xhdpi/ic_launcher.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/values/colors.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/values/font_certs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/values/preloaded_fonts.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/values/strings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/values/themes.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/xml/backup_rules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/main/res/xml/data_extraction_rules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/app/src/test/java/com/example/diagnofish/ExampleUnitTest.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/build.gradle.kts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/gradle.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Diagnofish/settings.gradle.kts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +24,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[B675ZD8PU4RO5DAU]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/dalhaqq/.android/avd/Medium_Phone_API_29.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -154,8 +72,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Kotlin Data Class" />
-        <option value="Kotlin Class" />
         <option value="Kotlin File" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin Interface" />
       </list>
     </option>
   </component>
@@ -168,27 +87,30 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2ZLFF7WeoFm3EhkCTLbJG64JGGK" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ResourceManagerPrefKey.ResourceType": "DRAWABLE",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "last_opened_file_path": "/home/dalhaqq/AndroidStudioProjects/Diagnofish",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ResourceManagerPrefKey.ResourceType&quot;: &quot;DRAWABLE&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/dalhaqq/AndroidStudioProjects/Diagnofish/app/src/main/java/com/example/diagnofish/screens&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/src/main/java/com/example/diagnofish/screens" />
@@ -265,6 +187,74 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="App" type="ComposePreviewRunConfiguration" singleton="false" temporary="true">
+      <module name="Diagnofish.app.main" />
+      <option name="DEPLOY" value="true" />
+      <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+      <option name="DEPLOY_AS_INSTANT" value="false" />
+      <option name="ARTIFACT_NAME" value="" />
+      <option name="PM_INSTALL_OPTIONS" value="" />
+      <option name="ALL_USERS" value="false" />
+      <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
+      <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
+      <option name="ACTIVITY_EXTRA_FLAGS" value="--es composable com.example.diagnofish.MainActivityKt.App" />
+      <option name="MODE" value="specific_activity" />
+      <option name="CLEAR_LOGCAT" value="false" />
+      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
+      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
+      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
+      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
+      <option name="DEBUGGER_TYPE" value="Auto" />
+      <Auto>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Auto>
+      <Hybrid>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Hybrid>
+      <Java>
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Java>
+      <Native>
+        <option name="USE_JAVA_AWARE_DEBUGGER" value="false" />
+        <option name="SHOW_STATIC_VARS" value="true" />
+        <option name="WORKING_DIR" value="" />
+        <option name="TARGET_LOGGING_CHANNELS" value="lldb process:gdb-remote packets" />
+        <option name="SHOW_OPTIMIZED_WARNING" value="true" />
+        <option name="ATTACH_ON_WAIT_FOR_DEBUGGER" value="false" />
+        <option name="DEBUG_SANDBOX_SDK" value="false" />
+      </Native>
+      <Profilers>
+        <option name="ADVANCED_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
+        <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
+        <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
+      </Profilers>
+      <option name="DEEP_LINK" value="" />
+      <option name="ACTIVITY_CLASS" value="androidx.compose.ui.tooling.PreviewActivity" />
+      <option name="SEARCH_ACTIVITY_IN_GLOBAL_SCOPE" value="true" />
+      <option name="SKIP_ACTIVITY_VALIDATION" value="false" />
+      <compose-preview-run-configuration composable-fqn="com.example.diagnofish.MainActivityKt.App" />
+      <method v="2">
+        <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="RegisterScreen" type="ComposePreviewRunConfiguration" singleton="false" temporary="true">
       <module name="Diagnofish.app.main" />
       <option name="DEPLOY" value="true" />
@@ -335,6 +325,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Compose Preview.App" />
         <item itemvalue="Compose Preview.RegisterScreen" />
       </list>
     </recent_temporary>
@@ -372,8 +363,58 @@
       <option name="project" value="LOCAL" />
       <updated>1702774094195</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Memperbaiki file hilang">
+      <option name="closed" value="true" />
+      <created>1702820439380</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1702820439380</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Perbaikan">
+      <option name="closed" value="true" />
+      <created>1702875085337</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1702875085337</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Penyempurnaan layouting">
+      <option name="closed" value="true" />
+      <created>1702887005563</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1702887005563</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Penyempurnaan layouting">
+      <option name="closed" value="true" />
+      <created>1702887032215</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1702887032215</updated>
+    </task>
+    <task id="LOCAL-00008" summary="WIP authentication">
+      <option name="closed" value="true" />
+      <created>1702911236590</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1702911236590</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -388,6 +429,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="Layout" />
+    <MESSAGE value="Memperbaiki file hilang" />
+    <MESSAGE value="Perbaikan" />
+    <MESSAGE value="Penyempurnaan layouting" />
+    <MESSAGE value="WIP authentication" />
+    <option name="LAST_COMMIT_MESSAGE" value="WIP authentication" />
   </component>
 </project>

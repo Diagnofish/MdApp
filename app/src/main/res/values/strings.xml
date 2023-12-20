@@ -42,4 +42,6 @@
     <string name="nav_scan">Pindai</string>
     <string name="nav_articles">Artikel</string>
     <string name="nav_history">Riwayat</string>
+    <string name="status_undetected">Tidak Terdeteksi</string>
+    <string name="dummy_long_text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quibusdam.</string>
 </resources>
