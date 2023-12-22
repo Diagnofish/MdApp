@@ -1,5 +1,6 @@
 package com.example.diagnofish.screens
 
+import BasicText
 import SectionTitle
 import TextButton
 import TextFieldWithLabel
@@ -14,10 +15,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarData
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,15 +52,31 @@ import com.example.diagnofish.ui.theme.InterFontFamily
 import com.example.diagnofish.ui.theme.Primary
 import com.example.diagnofish.ui.theme.TextDanger
 import com.example.diagnofish.ui.theme.TextDark
+import com.example.diagnofish.util.Response
+import com.example.diagnofish.viewmodel.RegisterViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Preview
 @Composable
-fun RegisterScreen(navController: NavHostController = rememberNavController()) {
-    Surface(modifier = Modifier
+fun RegisterScreen(navController: NavHostController = rememberNavController(), registerViewModel: RegisterViewModel = koinViewModel()) {
+    var emailVal = remember { mutableStateOf("") }
+    var emailMsg = remember { mutableStateOf("") }
+    var passVal = remember { mutableStateOf("") }
+    var passMsg = remember { mutableStateOf("") }
+    var rePassVal = remember { mutableStateOf("") }
+    var rePassMsg = remember { mutableStateOf("") }
+    Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)
         .padding(16.dp)
-        .padding(top = 32.dp)) {
+        .padding(top = 32.dp), contentAlignment = Alignment.Center) {
+        if (registerViewModel.result.value is Response.Loading) {
+            Box(modifier = Modifier
+                .matchParentSize()
+                .background(Color.White.copy(alpha = 0.5f)), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(color = Primary)
+            }
+        }
         Column {
             val text = buildAnnotatedString {
                 withStyle(style = SpanStyle(color = TextDark)) {
@@ -71,19 +97,39 @@ fun RegisterScreen(navController: NavHostController = rememberNavController()) {
             TextFieldWithLabel(
                 Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp), label = "Email", placeholder = "Email", keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Email))
+                    .padding(bottom = 8.dp), label = "Email", placeholder = "Email", keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Email), value = emailVal, message = emailMsg)
             TextFieldWithLabel(
                 Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp), label = "Kata Sandi", placeholder = "Kata Sandi", keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Password))
-            TextFieldWithLabel(Modifier.fillMaxWidth(), label = "Ulangi Kata Sandi", placeholder = "Ulangi Kata Sandi", keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password))
+                    .padding(bottom = 8.dp), label = "Kata Sandi", placeholder = "Kata Sandi", keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Password), value = passVal, message = passMsg)
+            TextFieldWithLabel(Modifier.fillMaxWidth(), label = "Ulangi Kata Sandi", placeholder = "Ulangi Kata Sandi", keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password), value = rePassVal, message = rePassMsg)
             TextButton(modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, bottom = 16.dp), text = stringResource(id = R.string.register), onClick = {
-                    navController.navigate(Screen.Auth.Login.route)
-            })
+                emailMsg.value = ""
+                passMsg.value = ""
+                rePassMsg.value = ""
+                registerViewModel.register(emailVal.value, passVal.value, rePassVal.value)
+            }, enabled = emailVal.value.isNotEmpty() && passVal.value.isNotEmpty() && rePassVal.value.isNotEmpty())
             Box(modifier = Modifier.fillMaxWidth()) {
-                TextAndLink(text = stringResource(id = R.string.has_account1), linkText = stringResource(id = R.string.has_account2), modifier = Modifier.align(Alignment.Center))
+                TextAndLink(text = stringResource(id = R.string.has_account1), linkText = stringResource(id = R.string.has_account2), modifier = Modifier.align(Alignment.Center), onClick = {
+                    navController.navigate(Screen.Auth.Login.route)
+                })
+            }
+            if (registerViewModel.result.value is Response.Failure) {
+                val errMessage = (registerViewModel.result.value as Response.Failure).e?.message
+                if (errMessage != null) {
+                    if (errMessage.contains("email")) {
+                        emailMsg.value = errMessage
+                    } else if (errMessage.contains("password")) {
+                        passMsg.value = errMessage
+                    }
+                }
+            } else if (registerViewModel.result.value is Response.Success) {
+                registerViewModel.result.value = Response.Empty
+                navController.navigate(Screen.Auth.Login.route) {
+                    launchSingleTop = true
+                }
             }
         }
     }

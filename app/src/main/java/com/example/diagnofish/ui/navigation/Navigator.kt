@@ -1,6 +1,7 @@
 package com.example.diagnofish.ui.navigation
 
 import android.content.Context
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,6 +20,7 @@ import com.example.diagnofish.screens.LoginScreen
 import com.example.diagnofish.screens.MainScreen
 import com.example.diagnofish.screens.RegisterScreen
 import com.example.diagnofish.screens.ScanDetailScreen
+import com.example.diagnofish.screens.UserProfileScreen
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -59,7 +61,7 @@ fun Navigator() {
             }
         )) {
             val index = it.arguments?.getString("id") ?: "0"
-            ScanDetailScreen(navController = navHostController, historyItem = dummyHistoryItems[index.toInt()])
+            ScanDetailScreen(navController = navHostController, id = index)
         }
         composable(route = Screen.ArticleDetail.route + "?id={id}", arguments = listOf(
             navArgument("id") {
@@ -69,6 +71,9 @@ fun Navigator() {
         )) {
             val index = it.arguments?.getString("id") ?: "0"
             ArticleDetailScreen(navController = navHostController, articleItem = dummyArticleItems[index.toInt()])
+        }
+        composable(route = Screen.UserProfile.route) {
+            UserProfileScreen(navController = navHostController)
         }
     }
 }

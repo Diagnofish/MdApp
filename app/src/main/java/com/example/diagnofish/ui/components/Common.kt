@@ -57,8 +57,8 @@ import com.example.diagnofish.ui.theme.TextDark
 
 @Preview
 @Composable
-fun TextButton(modifier: Modifier = Modifier, text: String = "Button", shape: Shape = RoundedCornerShape(20), shadowElevation: Dp = 8.dp, onClick: () -> Unit = {}) {
-    Button(shape = shape, onClick = onClick, modifier = modifier.shadow(elevation = shadowElevation, ambientColor = Primary, spotColor = Primary), colors = ButtonDefaults.buttonColors(containerColor = Primary)) {
+fun TextButton(modifier: Modifier = Modifier, text: String = "Button", shape: Shape = RoundedCornerShape(20), shadowElevation: Dp = 8.dp, onClick: () -> Unit = {}, enabled: Boolean = true, content: @Composable () -> Unit = {}) {
+    Button(shape = shape, onClick = onClick, enabled = enabled, modifier = if (!enabled) modifier else modifier.shadow(elevation = shadowElevation, ambientColor = Primary, spotColor = Primary), colors = ButtonDefaults.buttonColors(containerColor = Primary)) {
         Text(text = text, fontFamily = InterFontFamily, fontWeight = FontWeight.Bold, color = Lighter)
     }
 }
@@ -144,6 +144,8 @@ fun StatusBadge(status: String = "Sehat") {
         .background(
             if (status.equals(stringResource(id = R.string.status_infected)))
                 StatusDanger
+            else if (status.equals("Gagal"))
+                StatusWarning
             else
                 StatusSuccess
         )
@@ -165,7 +167,8 @@ fun StatusResult(status: String = "Tidak Terdeteksi") {
             else
                 StatusDanger
         )
-        .padding(8.dp), text = status, fontFamily = InterFontFamily, fontWeight = FontWeight.Medium, fontSize = 14.sp, textAlign = TextAlign.Center)
+        .padding(8.dp), text = if (status.equals(R.string.status_healthy)) "Dalam Keadaan Sehat" else if (status.equals(
+            stringResource(id = R.string.status_undetected))) stringResource(id = R.string.status_undetected) else "Terinfeksi ${status}", fontFamily = InterFontFamily, fontWeight = FontWeight.Medium, fontSize = 14.sp, textAlign = TextAlign.Center)
 
 }
 

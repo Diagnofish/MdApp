@@ -5,10 +5,23 @@ import ButtonWithIcon
 import LinkText
 import ScreenTitle
 import SectionTitle
+import TextButton
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.os.Build
+import android.provider.MediaStore
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +32,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
@@ -26,6 +40,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,6 +49,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -51,9 +68,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.canhub.cropper.CropImage.CancelledResult.uriContent
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageContractOptions
+import com.canhub.cropper.CropImageOptions
 import com.example.diagnofish.R
+import com.example.diagnofish.model.DetectionHistory
 import com.example.diagnofish.model.dummyArticleItems
 import com.example.diagnofish.model.dummyHistoryItems
+import com.example.diagnofish.repository.UserPreferencesRepository
 import com.example.diagnofish.ui.components.BottomBar
 import com.example.diagnofish.ui.components.CardArticle
 import com.example.diagnofish.ui.components.CardHistory
@@ -64,7 +87,18 @@ import com.example.diagnofish.ui.theme.Light
 import com.example.diagnofish.ui.theme.Lighter
 import com.example.diagnofish.ui.theme.Primary
 import com.example.diagnofish.ui.theme.Secondary
+import com.example.diagnofish.ui.theme.TextDanger
 import com.example.diagnofish.ui.theme.TextDark
+import com.example.diagnofish.util.Response
+import com.example.diagnofish.util.UriUtil
+import com.example.diagnofish.viewmodel.HistoryViewModel
+import com.example.diagnofish.viewmodel.ScanViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
+import java.io.File
+import java.nio.file.Path
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,9 +107,10 @@ import com.example.diagnofish.ui.theme.TextDark
 fun MainScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    route: String = Screen.Main.Home.route
+    route: String = Screen.Main.Home.route,
 ) {
     var title by remember { mutableStateOf("") }
+    val userPreferencesRepository = UserPreferencesRepository(LocalContext.current)
     Scaffold(
         topBar = {
             TopAppBar(
@@ -85,7 +120,16 @@ fun MainScreen(
                     )
                 },
                 actions = {
-                    Image(painter = painterResource(id = R.drawable.icon_user), contentDescription = stringResource(
+                    LinkText("Logout", onClick = {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            userPreferencesRepository.clear()
+                        }
+                    })
+                    Image(modifier = Modifier
+                        .padding(8.dp)
+                        .clickable {
+                            navController.navigate(Screen.UserProfile.route)
+                        }, painter = painterResource(id = R.drawable.icon_user), contentDescription = stringResource(
                         id = R.string.app_name)
                     )
                 },
@@ -110,7 +154,7 @@ fun MainScreen(
             }
             Screen.Main.Scan.route -> {
                 title = stringResource(id = R.string.fish_detection)
-                ScanScreen(modifier = Modifier.padding(innerPadding))
+                ScanScreen(modifier = Modifier.padding(innerPadding), navController = navController)
             }
             Screen.Main.Article.route -> {
                 title = stringResource(id = R.string.nav_articles)
@@ -121,59 +165,68 @@ fun MainScreen(
                 HistoryScreen(modifier = Modifier.padding(innerPadding), navController = navController)
             }
         }
-//        NavHost(navController = navController, startDestination = Screen.Home.route, modifier = Modifier.padding(innerPadding)) {
-//            composable(Screen.Home.route) {
-//                title = stringResource(id = R.string.greeting)
-//                HomeScreen()
-//            }
-//            composable(Screen.Store.route) {
-//                title = stringResource(id = R.string.nav_store)
-//                StoreScreen()
-//            }
-//            composable(Screen.Scan.route) {
-//                title = stringResource(id = R.string.fish_detection)
-//                ScanScreen()
-//            }
-//            composable(Screen.Article.route) {
-//                title = stringResource(id = R.string.nav_articles)
-//                ArticleScreen()
-//            }
-//            composable(Screen.History.route) {
-//                title = stringResource(id = R.string.detection_history)
-//                HistoryScreen()
-//            }
-//        }
     }
 }
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) {
+fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController, historyViewModel: HistoryViewModel = koinViewModel()) {
+    fun launch() {
+        historyViewModel.getHistory()
+    }
+    if (historyViewModel.result.value is Response.Empty) {
+        launch()
+    }
     Column(modifier = modifier
         .fillMaxSize()
         .background(Secondary)
     ) {
         Header(modifier = Modifier.padding(16.dp), action = {
-            navController.navigate(Screen.Main.Scan.route)
+            navController.navigate(Screen.Main.Scan.route) {
+                popUpTo(Screen.Main.Home.route) {
+                    saveState = true
+                }
+                restoreState = true
+                launchSingleTop = true
+            }
         })
         Column(modifier = Modifier
             .fillMaxSize()
             .clip(RoundedCornerShape(topStartPercent = 10, topEndPercent = 10))
             .background(Lighter)
             .padding(horizontal = 16.dp)) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 8.dp)) {
-                SectionTitle(text = stringResource(id = R.string.detection_history), fontSize = 18.sp)
-                LinkText(text = stringResource(id = R.string.see_more), color = Primary, onClick = {
-                    navController.navigate(Screen.Main.History.route)
-                })
-            }
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier
-                .padding(4.dp)
-                .fillMaxWidth()
+            if (historyViewModel.result.value is Response.Success) {
+                val history = (historyViewModel.result.value as Response.Success<List<DetectionHistory>>).data
+                Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)) {
+                    SectionTitle(text = stringResource(id = R.string.detection_history), fontSize = 18.sp)
+                    LinkText(text = stringResource(id = R.string.see_more), color = Primary, onClick = {
+                        navController.navigate(Screen.Main.History.route) {
+                            popUpTo(Screen.Main.Home.route) {
+                                saveState = true
+                            }
+                            restoreState = true
+                            launchSingleTop = true
+                        }
+                    })
+                }
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier
+                    .padding(4.dp)
+                    .fillMaxWidth()
                 ) {
-                items(dummyHistoryItems.take(4).size) {
-                    CardHistorySmall(historyItem = dummyHistoryItems[it])
+                    history?.take(4)?.let { historyList ->
+                        items(historyList.size) {
+                            CardHistorySmall(detectionHistory = history.get(it), onClick = {
+                                navController.navigate(Screen.ScanDetail.route + "?id=${history.get(it).id}") {
+                                    popUpTo(Screen.Main.Home.route) {
+                                        saveState = true
+                                    }
+                                    restoreState = true
+                                    launchSingleTop = true
+                                }
+                            })
+                        }
+                    }
                 }
             }
             Row(horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
@@ -181,13 +234,27 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController) 
                 .padding(top = 12.dp)) {
                 SectionTitle(text = stringResource(id = R.string.articles), fontSize = 18.sp)
                 LinkText(text = stringResource(id = R.string.see_more), color = Primary, onClick = {
-                    navController.navigate(Screen.Main.Article.route)
+                    navController.navigate(Screen.Main.Article.route) {
+                        popUpTo(Screen.Main.Home.route) {
+                            saveState = true
+                        }
+                        restoreState = true
+                        launchSingleTop = true
+                    }
                 })
             }
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(dummyArticleItems.size) {
+                items(dummyArticleItems.take(4).size) {
                     Spacer(modifier = Modifier.padding(top = 8.dp))
-                    CardArticle(articleItem = dummyArticleItems[it])
+                    CardArticle(articleItem = dummyArticleItems[it], onClick = {
+                        navController.navigate(Screen.ArticleDetail.route + "?id=${it}") {
+                            popUpTo(Screen.Main.Home.route) {
+                                saveState = true
+                            }
+                            restoreState = true
+                            launchSingleTop = true
+                        }
+                    })
                 }
             }
 
@@ -203,7 +270,35 @@ fun StoreScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ScanScreen(modifier: Modifier = Modifier) {
+fun ScanScreen(modifier: Modifier = Modifier, scanViewModel: ScanViewModel = koinViewModel(), navController: NavHostController) {
+    val context = LocalContext.current
+    var bitmap by remember { mutableStateOf<Bitmap?>(null) }
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+    val launcher = rememberLauncherForActivityResult(contract = CropImageContract(), onResult = {
+        if (it.isSuccessful) {
+            imageUri = it.uriContent
+            var image = UriUtil.uriToFile(imageUri!!, context)
+            image = UriUtil.reduceFileImage(image)
+            scanViewModel.predict(image)
+        } else {
+            val exception = it.error
+        }
+    })
+    if (scanViewModel.result.value is Response.Success) {
+        val result = (scanViewModel.result.value as Response.Success<DetectionHistory>).data
+        if (result != null) {
+            scanViewModel.result.value = Response.Empty
+            navController.navigate(Screen.ScanDetail.route + "?id=${result.id}")
+        }
+    }
+    if (imageUri != null) {
+        if (Build.VERSION.SDK_INT < 28) {
+            bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
+        } else {
+            val source = ImageDecoder.createSource(context.contentResolver, imageUri!!)
+            bitmap = ImageDecoder.decodeBitmap(source)
+        }
+    }
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -224,8 +319,30 @@ fun ScanScreen(modifier: Modifier = Modifier) {
                     .padding(vertical = 16.dp, horizontal = 22.dp), textAlign = TextAlign.Center, fontSize = 17.sp, fontFamily = FontFamily(Font(R.font.inter_medium)), fontWeight = FontWeight.Medium)
                 Spacer(modifier = Modifier.padding(top = 16.dp))
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                    ButtonWithIcon(icon = painterResource(id = R.drawable.icon_gallery), text = stringResource(id = R.string.gallery), onClick = {})
-                    ButtonWithIcon(icon = painterResource(id = R.drawable.icon_camera), text = stringResource(id = R.string.take_photo), onClick = {})
+                    ButtonWithIcon(icon = painterResource(id = R.drawable.icon_gallery), text = stringResource(id = R.string.gallery), onClick = {
+                        val cropOptions = CropImageContractOptions(uriContent, CropImageOptions(
+                            imageSourceIncludeGallery = true,
+                            imageSourceIncludeCamera = false
+                        ))
+                        launcher.launch(cropOptions)
+                    })
+                    ButtonWithIcon(icon = painterResource(id = R.drawable.icon_camera), text = stringResource(id = R.string.take_photo), onClick = {
+                        val cropOptions = CropImageContractOptions(uriContent, CropImageOptions(
+                            imageSourceIncludeGallery = false,
+                            imageSourceIncludeCamera = true
+                        ))
+                        launcher.launch(cropOptions)
+                    })
+                }
+            }
+            if (scanViewModel.result.value is Response.Failure) {
+                val message = (scanViewModel.result.value as Response.Failure).e?.message
+                if (message != null) {
+                    BasicText(text = message, textAlign = TextAlign.Center, color = TextDanger, modifier = Modifier.fillMaxWidth())
+                }
+            } else if (scanViewModel.result.value is Response.Loading) {
+                Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                    CircularProgressIndicator()
                 }
             }
         }
@@ -247,14 +364,46 @@ fun ArticleScreen(modifier: Modifier = Modifier, navController: NavHostControlle
 }
 
 @Composable
-fun HistoryScreen(modifier: Modifier = Modifier, navController: NavHostController) {
-    Column(modifier = modifier.padding(horizontal = 16.dp)) {
-        LazyColumn() {
-            items(dummyHistoryItems.size) {
-                Spacer(modifier = Modifier.padding(top = 8.dp))
-                CardHistory(historyItem = dummyHistoryItems[it], onClick = {
-                    navController.navigate(Screen.ScanDetail.route + "?id=${it}")
-                })
+fun HistoryScreen(modifier: Modifier = Modifier, navController: NavHostController, historyViewModel: HistoryViewModel = koinViewModel()) {
+    fun launch() {
+        historyViewModel.getHistory()
+    }
+    if (historyViewModel.result.value is Response.Empty) {
+        launch()
+    }
+    when (val history = historyViewModel.result.value) {
+        is Response.Success -> {
+            Column(modifier = modifier.padding(horizontal = 16.dp)) {
+                LazyColumn() {
+                    history.data?.size?.let {
+                        items(it) {
+                            val detectionHistory = history.data.get(it)
+                            Spacer(modifier = Modifier.padding(top = 8.dp))
+                            CardHistory(detectionHistory = detectionHistory, onClick = {
+                                navController.navigate(Screen.ScanDetail.route + "?id=${detectionHistory.id}")
+                            })
+                        }
+                    }
+                }
+            }
+        }
+        is Response.Failure -> {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White), contentAlignment = Alignment.Center) {
+                Column {
+                    BasicText(text = stringResource(id = R.string.loading_failed))
+                    TextButton(text = stringResource(id = R.string.try_again), onClick = {
+                        launch()
+                    })
+                }
+            }
+        }
+        else -> {
+            Box(modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(color = Primary)
             }
         }
     }

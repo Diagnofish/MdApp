@@ -9,11 +9,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d4a551b4-d0ff-4d68-80f8-a7a407ec412c" name="Changes" comment="WIP authentication">
-      <change beforePath="$PROJECT_DIR$/.gradle/8.2/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.2/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.2/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.2/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/8.2/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.2/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="d4a551b4-d0ff-4d68-80f8-a7a407ec412c" name="Changes" comment="Finishing">
       <change beforePath="$PROJECT_DIR$/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/local.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,7 +20,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/home/dalhaqq/.android/avd/Medium_Phone_API_29.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[B675ZD8PU4RO5DAU]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -71,10 +67,11 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Data Class" />
         <option value="Kotlin File" />
-        <option value="Kotlin Class" />
         <option value="Kotlin Interface" />
+        <option value="Class" />
+        <option value="Kotlin Class" />
+        <option value="Kotlin Data Class" />
       </list>
     </option>
   </component>
@@ -107,6 +104,9 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/dalhaqq/AndroidStudioProjects/Diagnofish/app/src/main/java/com/example/diagnofish/screens&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Dependencies&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
@@ -117,6 +117,9 @@
     </key>
     <key name="android.template.1810078275">
       <recent name="com.example.diagnofish" />
+    </key>
+    <key name="CopyKotlinDeclarationDialog.RECENTS_KEY">
+      <recent name="com.example.diagnofish.viewmodel" />
     </key>
   </component>
   <component name="RunManager" selected="Android App.app">
@@ -403,7 +406,39 @@
       <option name="project" value="LOCAL" />
       <updated>1702911236590</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="WIP authentication">
+      <option name="closed" value="true" />
+      <created>1702911317845</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1702911317845</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Work in Progress authentication 2">
+      <option name="closed" value="true" />
+      <created>1702921672397</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1702921672397</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Work in Progress authentication 3&#10;Mengubah class repository dan service, mengubah url api, dan logic viewmodel">
+      <option name="closed" value="true" />
+      <created>1703068433222</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1703068433222</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Finishing">
+      <option name="closed" value="true" />
+      <created>1703225181431</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1703225181431</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -433,6 +468,9 @@
     <MESSAGE value="Perbaikan" />
     <MESSAGE value="Penyempurnaan layouting" />
     <MESSAGE value="WIP authentication" />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP authentication" />
+    <MESSAGE value="Work in Progress authentication 2" />
+    <MESSAGE value="Work in Progress authentication 3&#10;Mengubah class repository dan service, mengubah url api, dan logic viewmodel" />
+    <MESSAGE value="Finishing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finishing" />
   </component>
 </project>
