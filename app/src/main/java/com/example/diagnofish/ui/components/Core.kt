@@ -35,8 +35,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import coil.compose.AsyncImage
 import com.example.diagnofish.R
 import com.example.diagnofish.model.ArticleItem
+import com.example.diagnofish.model.DetectionHistory
 import com.example.diagnofish.model.HistoryItem
 import com.example.diagnofish.model.dummyArticleItems
 import com.example.diagnofish.model.dummyHistoryItems
@@ -130,21 +132,24 @@ fun Header(modifier: Modifier = Modifier, action: () -> Unit = {}) {
     }
 }
 
-@Preview()
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CardHistorySmall(historyItem: HistoryItem = dummyHistoryItems[0]) {
+fun CardHistorySmall(detectionHistory: DetectionHistory, onClick: () -> Unit = {}) {
     ElevatedCard(modifier = Modifier
         .width(160.dp)
         .background(Light)
-        .shadow(8.dp)
+        .shadow(8.dp),
+        onClick = onClick
     ) {
     Column (
         Modifier.padding(16.dp)) {
-        BasicText(text = stringResource(id = historyItem.date), fontSize = 14.sp, lineHeight = 24.sp)
-        BasicText(text = stringResource(id = historyItem.fishName), fontSize = 18.sp, lineHeight = 24.sp, fontWeight = FontWeight.Bold)
+        BasicText(text = detectionHistory.created_at.substringBefore("T"), fontSize = 14.sp, lineHeight = 24.sp)
+        BasicText(text = detectionHistory.fish_name, fontSize = 18.sp, lineHeight = 24.sp, fontWeight = FontWeight.Bold)
         Row(verticalAlignment = Alignment.CenterVertically) {
             BasicText(text = stringResource(id = R.string.show_status) + " ")
-            StatusBadge(stringResource(id = historyItem.status))
+            StatusBadge(if (detectionHistory.confidence_score < 0.6)
+                "Gagal"
+            else if (detectionHistory.result.equals(stringResource(R.string.status_healthy))) "Sehat" else "Terinfeksi")
         }
     }
     }
@@ -158,43 +163,48 @@ fun CardArticle(articleItem: ArticleItem = dummyArticleItems[0], onClick: () -> 
         Row(modifier = Modifier
             .background(Light)
             .padding(8.dp)) {
-            Image(painter = painterResource(id = articleItem.image), contentDescription = stringResource(articleItem.title), modifier = Modifier
+            Image(painter = painterResource(id = articleItem.image), contentDescription = articleItem.title, modifier = Modifier
                 .height(100.dp)
                 .clip(RoundedCornerShape(10)))
-            BasicText(text = stringResource(articleItem.title), fontSize = 18.sp, lineHeight = 24.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 16.dp, start = 8.dp)) }
+            BasicText(text = articleItem.title, fontSize = 18.sp, lineHeight = 24.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 16.dp, start = 8.dp)) }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun CardHistory(historyItem: HistoryItem = dummyHistoryItems[0], onClick: () -> Unit = {}) {
+fun CardHistory(detectionHistory: DetectionHistory, onClick: () -> Unit = {}) {
     ElevatedCard(modifier = Modifier.fillMaxWidth(), onClick = onClick) {
         Row(modifier = Modifier
             .background(Light)
             .padding(8.dp)) {
-            Image(
-                painter = painterResource(id = historyItem.image),
-                contentDescription = stringResource(historyItem.fishName),
+            AsyncImage(
+                model = "https://storage.googleapis.com/diagnofish/detection-images/${detectionHistory.image_filename}", contentDescription = detectionHistory.fish_name,
+                fallback = painterResource(id = R.drawable.blank_image),
                 modifier = Modifier
                     .height(120.dp)
                     .clip(RoundedCornerShape(10))
             )
             Column(modifier = Modifier.padding(start = 16.dp, top = 8.dp)) {
                 BasicText(
-                    text = stringResource(id = historyItem.date),
+                    text = detectionHistory.created_at.substringBefore("T"),
                     fontSize = 14.sp,
                     lineHeight = 24.sp
                 )
                 BasicText(
-                    text = stringResource(id = historyItem.fishName),
+                    text = detectionHistory.fish_name,
                     fontSize = 18.sp,
                     lineHeight = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     BasicText(text = stringResource(id = R.string.show_status) + " ")
-                    StatusBadge(stringResource(id = historyItem.status))
+                    StatusBadge(
+                        if (detectionHistory.confidence_score < 0.6)
+                            "Gagal"
+                        else if(detectionHistory.result.equals(stringResource(R.string.status_healthy)))
+                            "Sehat"
+                        else
+                            "Terinfeksi")
                 }
             }
         }

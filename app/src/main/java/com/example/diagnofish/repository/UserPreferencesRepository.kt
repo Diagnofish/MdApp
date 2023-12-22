@@ -89,7 +89,3 @@ class UserPreferencesRepository(
         }
     }
 }
-
-// create singleton from above class
-val Context.userPreferencesRepository: UserPreferencesRepository
-    get() = UserPreferencesRepository(this)

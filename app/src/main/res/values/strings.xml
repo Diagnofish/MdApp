@@ -24,7 +24,7 @@
     <string name="dummy_date">28 November 2023</string>
     <string name="show_status">Status:</string>
     <string name="status_infected">Terinfeksi</string>
-    <string name="status_healthy">Sehat</string>
+    <string name="status_healthy">Healthy Fish</string>
     <string name="dummy_short_text">Lorem ipsum dolor sit amet</string>
     <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id urna cursus, efficitur arcu quis, aliquet mafdasffasfasffasuris.</string>
     <string name="fish_detection">Deteksi Keadaan Ikan</string>
@@ -37,11 +37,17 @@
     <string name="result_failed">Gagal Mendeteksi</string>
     <string name="treatment">Penanganan</string>
     <string name="prevention">Pencegahan</string>
+    <string name="symptom">Gejala</string>
+    <string name="cause">Penyebab</string>
     <string name="nav_home">Beranda</string>
     <string name="nav_store">Toko</string>
     <string name="nav_scan">Pindai</string>
     <string name="nav_articles">Artikel</string>
     <string name="nav_history">Riwayat</string>
-    <string name="status_undetected">Tidak Terdeteksi</string>
+    <string name="status_undetected">Gagal Mendeteksi</string>
     <string name="dummy_long_text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quibusdam.</string>
+    <string name="ok">OK</string>
+    <string name="loading_failed">Gagal memuat data</string>
+    <string name="try_again">Coba lagi</string>
+    <string name="user_profile">Profil User</string>
 </resources>

@@ -3,12 +3,10 @@ package com.example.diagnofish.viewmodel
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.diagnofish.repository.ApiRepository
 import com.example.diagnofish.repository.ApiRepositoryImpl
-import com.example.diagnofish.repository.UserPreferencesRepository
 import com.example.diagnofish.util.Response
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -17,25 +15,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.dsl.module
 import retrofit2.HttpException
 
-class LoginViewModel constructor(
+class RegisterViewModel constructor(
     private val apiRepository: ApiRepository,
-    private val userPreferencesRepository: UserPreferencesRepository
 ): ViewModel() {
     private val _result = mutableStateOf<Response<Map<String, String>>>(Response.Empty)
     val result: MutableState<Response<Map<String, String>>> = _result
-    fun login(email: String, password: String) {
+    fun register(email: String, password: String, repeatPassword: String) {
         val jsonObject = JsonObject()
         jsonObject.addProperty("email", email)
         jsonObject.addProperty("password", password)
+        jsonObject.addProperty("repeat_password", repeatPassword)
         val jsonObjectString = jsonObject.toString()
         val requestBody = jsonObjectString.toRequestBody("application/json".toMediaTypeOrNull())
 
         viewModelScope.launch(Dispatchers.IO) {
-            apiRepository.login(requestBody).collect { response ->
+            apiRepository.register(requestBody).collect { response ->
                 when (response) {
                     is Response.Empty -> {
                         CoroutineScope(Dispatchers.Main).launch {
@@ -52,13 +48,7 @@ class LoginViewModel constructor(
                     is Response.Success -> {
                         CoroutineScope(Dispatchers.Main).launch {
                             _result.value = response
-                            if (response.data?.get("user_id") != null) {
-                                userPreferencesRepository.updateEmail(email)
-                                userPreferencesRepository.updateUserId(response.data?.get("user_id").toString())
-                                userPreferencesRepository.updatePassword(password)
-                                userPreferencesRepository.updateIsLoggedIn(true)
-                            }
-                            Log.d("LoginViewModel", response.data.toString())
+                            Log.d("RegisterViewModel", response.data.toString())
                         }
                     }
 
@@ -70,11 +60,11 @@ class LoginViewModel constructor(
                                         val map = Gson().fromJson(it, Map::class.java)
                                         _result.value =
                                             Response.Failure(Exception(map["error"].toString()))
-                                        Log.d("LoginViewModel", map.toString())
+                                        Log.d("RegisterViewModel", map.toString())
                                     }
                             } else {
                                 _result.value = response
-                                Log.d("LoginViewModel", response.e.toString())
+                                Log.d("RegisterViewModel", response.e.toString())
                             }
                         }
                     }
