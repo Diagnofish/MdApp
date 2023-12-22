@@ -167,7 +167,7 @@ fun StatusResult(status: String = "Tidak Terdeteksi") {
             else
                 StatusDanger
         )
-        .padding(8.dp), text = if (status.equals(R.string.status_healthy)) "Dalam Keadaan Sehat" else if (status.equals(
+        .padding(8.dp), text = if (status.equals(stringResource(R.string.status_healthy))) "Dalam Keadaan Sehat" else if (status.equals(
             stringResource(id = R.string.status_undetected))) stringResource(id = R.string.status_undetected) else "Terinfeksi ${status}", fontFamily = InterFontFamily, fontWeight = FontWeight.Medium, fontSize = 14.sp, textAlign = TextAlign.Center)
 
 }
