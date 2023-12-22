@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -165,7 +166,8 @@ fun CardArticle(articleItem: ArticleItem = dummyArticleItems[0], onClick: () -> 
             .padding(8.dp)) {
             Image(painter = painterResource(id = articleItem.image), contentDescription = articleItem.title, modifier = Modifier
                 .height(100.dp)
-                .clip(RoundedCornerShape(10)))
+                .width(160.dp)
+                .clip(RoundedCornerShape(10)), contentScale = ContentScale.Crop)
             BasicText(text = articleItem.title, fontSize = 18.sp, lineHeight = 24.sp, fontWeight = FontWeight.Medium, modifier = Modifier.padding(top = 16.dp, start = 8.dp)) }
     }
 }
@@ -180,8 +182,10 @@ fun CardHistory(detectionHistory: DetectionHistory, onClick: () -> Unit = {}) {
             AsyncImage(
                 model = "https://storage.googleapis.com/diagnofish/detection-images/${detectionHistory.image_filename}", contentDescription = detectionHistory.fish_name,
                 fallback = painterResource(id = R.drawable.blank_image),
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .height(120.dp)
+                    .width(180.dp)
                     .clip(RoundedCornerShape(10))
             )
             Column(modifier = Modifier.padding(start = 16.dp, top = 8.dp)) {

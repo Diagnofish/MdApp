@@ -40,6 +40,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -175,6 +176,11 @@ fun HomeScreen(modifier: Modifier = Modifier, navController: NavHostController, 
     }
     if (historyViewModel.result.value is Response.Empty) {
         launch()
+    }
+    DisposableEffect(Unit) {
+        onDispose {
+            historyViewModel.result.value = Response.Empty
+        }
     }
     Column(modifier = modifier
         .fillMaxSize()
@@ -370,6 +376,11 @@ fun HistoryScreen(modifier: Modifier = Modifier, navController: NavHostControlle
     }
     if (historyViewModel.result.value is Response.Empty) {
         launch()
+    }
+    DisposableEffect(Unit) {
+        onDispose {
+            historyViewModel.result.value = Response.Empty
+        }
     }
     when (val history = historyViewModel.result.value) {
         is Response.Success -> {
